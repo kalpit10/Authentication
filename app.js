@@ -70,12 +70,22 @@ passport.use(new GoogleStrategy({  //documentation for passportjs oauth20
     clientSecret: process.env.CLIENT_SECRET,
     callbackURL: "https://secrets10.herokuapp.com/auth/google/secrets"   //redirected url link that we created in credentials
   },
-  function(accessToken, refreshToken, profile, cb) {  //accessToken allows to get data related to that user,refreshToken allows to use the data for a longer period of time and their profile
-    console.log(profile);
-    User.findOrCreate({ googleId: profile.id }, function (err, user) {  //we first find the google id of that profile if it is there then bingo! if not then create one.
-      return cb(err, user); //findOrCreate is a made up function made by passportjs and we will not be able to find the documentation for the same. there is a npm package so that this function works we need to install it.
-    });
-  }
+  // function(accessToken, refreshToken, profile, cb) {  //accessToken allows to get data related to that user,refreshToken allows to use the data for a longer period of time and their profile
+  //   console.log(profile);
+  //   User.findOrCreate({ googleId: profile.id }, function (err, user) {  //we first find the google id of that profile if it is there then bingo! if not then create one.
+  //     return cb(err, user); //findOrCreate is a made up function made by passportjs and we will not be able to find the documentation for the same. there is a npm package so that this function works we need to install it.
+  //   });
+  // }
+  function(accessToken, refreshToken, profile, cb) => {
+        console.log(profile);
+        //install and require find or create to make following function work
+        User.findOrCreate({
+            googleId: profile.id,
+            username: profile.emails[0].value
+        }, (err, user) => {
+            return cb(err, user);
+        });
+    }
 ));
 
 
