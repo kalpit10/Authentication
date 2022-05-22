@@ -33,7 +33,7 @@ app.use(passport.session());   //and to also use passport for dealing with the s
 
 //mongoose.connect("mongodb://localhost:27017/userDB", {useNewUrlParser:true});
 
-mongoose.connect("mongodb+srv://kalpit10:Nvidiagtx1650@authentication.omtyt.mongodb.net/userDB", {useNewUrlParser:true});
+mongoose.connect("mongodb+srv://kalpit10:Nvidiagtx1650@authentication.omtyt.mongodb.net/?retryWrites=true&w=majority/userDB", {useNewUrlParser:true});
 
 
 //FOR USING BUTTONS FOR GOOGLE, FACEBOOK ETC WHEN LOGIN GO TO SOCIALBUTTONS FOR BOOTSTRAP AND DOWNLOAD THAT ZIP FILE AND DRAG THE FILE OF BOOTSTRAP SOCAIL.CSS IN THE CSS FOLDER.
