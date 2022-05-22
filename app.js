@@ -76,13 +76,13 @@ passport.use(new GoogleStrategy({  //documentation for passportjs oauth20
   //     return cb(err, user); //findOrCreate is a made up function made by passportjs and we will not be able to find the documentation for the same. there is a npm package so that this function works we need to install it.
   //   });
   // }
-  function(accessToken, refreshToken, profile, cb) => {
+  function(accessToken, refreshToken, profile, cb){
         console.log(profile);
         //install and require find or create to make following function work
         User.findOrCreate({
             googleId: profile.id,
             username: profile.emails[0].value
-        }, (err, user) => {
+        }, function(err, user){
             return cb(err, user);
         });
     }
