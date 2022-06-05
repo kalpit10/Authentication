@@ -202,12 +202,12 @@ req.login(user, function(err){
 });
 
 
-//
-// let port = process.env.PORT;
-// if (port == null || port == "") {
-//   port = 4000;
-// }
 
-app.listen(4000, function () {
+let port = process.env.PORT;
+if (port == null || port == "") {
+  port = 4000;
+}
+
+app.listen(port, function () {
   console.log("Server has started successfully.");
 });
