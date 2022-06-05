@@ -31,9 +31,9 @@ app.use(session({    //check documentation
 app.use(passport.initialize());  //we tell our app to initialize passport package
 app.use(passport.session());   //and to also use passport for dealing with the sessions
 
-//mongoose.connect("mongodb://localhost:27017/userDB", {useNewUrlParser:true});
+mongoose.connect("mongodb://localhost:27017/userDB", {useNewUrlParser:true});
 
-mongoose.connect("mongodb+srv://kalpit10:Nvidiagtx1650@authentication.omtyt.mongodb.net/?retryWrites=true&w=majority/userDB", {useNewUrlParser:true});
+// mongoose.connect("mongodb+srv://kalpit10:Nvidiagtx1650@authentication.omtyt.mongodb.net/?retryWrites=true&w=majority/userDB", {useNewUrlParser:true});
 
 
 //FOR USING BUTTONS FOR GOOGLE, FACEBOOK ETC WHEN LOGIN GO TO SOCIALBUTTONS FOR BOOTSTRAP AND DOWNLOAD THAT ZIP FILE AND DRAG THE FILE OF BOOTSTRAP SOCAIL.CSS IN THE CSS FOLDER.
@@ -42,7 +42,13 @@ mongoose.connect("mongodb+srv://kalpit10:Nvidiagtx1650@authentication.omtyt.mong
 const userSchema = new mongoose.Schema({  //new definition because of mongoose encryption
   email: String,
   password: String,
-  googleID: String,
+  googleID: {
+    type: String,
+      require: true,
+      index:true,
+      unique:true,
+      sparse:true
+  },
   secret: String
 });
 
@@ -68,7 +74,7 @@ passport.deserializeUser(function(id, done) {
 passport.use(new GoogleStrategy({  //documentation for passportjs oauth20
     clientID: process.env.CLIENT_ID,
     clientSecret: process.env.CLIENT_SECRET,
-    callbackURL: "https://secrets10.herokuapp.com/auth/google/secrets"   //redirected url link that we created in credentials
+    callbackURL: "http://localhost:4000/auth/google/secrets"   //redirected url link that we created in credentials
   },
   // function(accessToken, refreshToken, profile, cb) {  //accessToken allows to get data related to that user,refreshToken allows to use the data for a longer period of time and their profile
   //   console.log(profile);
@@ -81,7 +87,7 @@ passport.use(new GoogleStrategy({  //documentation for passportjs oauth20
         //install and require find or create to make following function work
         User.findOrCreate({
             googleId: profile.id,
-            username: profile.emails[0].value
+            username: profile.displayName //changes here from udemy doubts section
         }, function(err, user){
             return cb(err, user);
         });
@@ -195,12 +201,12 @@ req.login(user, function(err){
 });
 
 
+//
+// let port = process.env.PORT;
+// if (port == null || port == "") {
+//   port = 4000;
+// }
 
-let port = process.env.PORT;
-if (port == null || port == "") {
-  port = 3000;
-}
-
-app.listen(port, function () {
+app.listen(4000, function () {
   console.log("Server has started successfully.");
 });
