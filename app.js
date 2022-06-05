@@ -101,9 +101,10 @@ app.get("/", function(req, res){
   res.render("home");
 });
 
-app.get("/auth/google",
-  passport.authenticate('google', { scope: ["profile"] })  //type of authentication is GoogleStrategy and scope tells us that we want user's profile
-);
+//type of authentication is GoogleStrategy and scope tells us that we want user's profile
+app.route("/auth/google")
+  .get(passport.authenticate('google', { scope: ['profile']
+  }));
 
 app.get("/auth/google/secrets",
   passport.authenticate("google", { failureRedirect: "/login" }),
